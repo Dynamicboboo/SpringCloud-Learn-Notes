@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="springcloud-sonsumer-dept-feign" />
         <module name="springcloud-provider-dept-8002" />
+        <module name="springcloud-provider-dept-hystrix-8001" />
         <module name="springcloud-eureka-7001" />
         <module name="springcould-consumer-dept-80" />
         <module name="springcloudapi" />
@@ -15,6 +16,7 @@
         <module name="springcloud-eureka-7003" />
         <module name="springcloud-eureka-7002" />
         <module name="springcloud-provider-dept-8001" />
+        <module name="springcloud-provider-hystrix-dashboard" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

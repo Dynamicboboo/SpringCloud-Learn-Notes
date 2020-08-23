@@ -6,3 +6,7 @@ eureka:
     register-with-eureka: false #不像Eureka注册自己
     service-url:
       defaultZone: http://localhost1:7001/eureka/,http://localhost3:7002/eureka/,http://localhost3:7003/eureka/
+# 开启降级feign.hystrix
+feign:
+  hystrix:
+    enabled: true

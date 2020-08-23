@@ -1340,57 +1340,372 @@ public interface DeptClientService {
 
 ## 8. Hystrix：服务熔断
 
+**分布式系统面临的问题**
 
+复杂分布式体系结构中的应用程序有数十个依赖关系，每个依赖关系在某些时候将不可避免失败！
 
+#### 8.1 服务雪崩
 
+ 多个微服务之间调用的时候，假设微服务A调用微服务B和微服务C，微服务B和微服务C又调用其他的微服务，这就是所谓的“扇出”，如果扇出的链路上**某个微服务的调用响应时间过长，或者不可用**，对微服务A的调用就会占用越来越多的系统资源，进而引起系统崩溃，所谓的“雪崩效应”。
 
+ 对于高流量的应用来说，单一的后端依赖可能会导致所有服务器上的所有资源都在几十秒内饱和。比失败更糟糕的是，这些应用程序还可能导致服务之间的延迟增加，备份队列，线程和其他系统资源紧张，导致整个系统发生更多的级联故障，这些都表示需要对故障和延迟进行隔离和管理，以便单个依赖关系的失败，不能取消整个应用程序或系统。
 
+ **我们需要，弃车保帅**
 
+#### 8.2 什么是Hystrix？
 
+ Hystrix是一个应用于处理分布式系统的延迟和容错的开源库，在分布式系统里，许多依赖不可避免的会调用失败，比如超时，异常等，Hystrix能够保证在一个依赖出问题的情况下，不会导致整个体系服务失败，避免级联故障，以提高分布式系统的弹性。
 
+ “断路器”本身是一种开关装置，当某个服务单元发生故障之后，通过断路器的故障监控 (类似熔断保险丝) ，**向调用方方茴一个服务预期的，可处理的备选响应 (FallBack) ，而不是长时间的等待或者抛出调用方法无法处理的异常，这样就可以保证了服务调用方的线程不会被长时间，不必要的占用**，从而避免了故障在分布式系统中的蔓延，乃至雪崩。
 
+#### 8.3 Hystrix能干嘛？
 
+- 服务降级
+- 服务熔断
+- 服务限流
+- 接近实时的监控
+- …
 
+当一切正常时，请求流可以如下所示：
 
+![img](img/aHR0cHM6Ly9naXRodWIuY29tL05ldGZsaXgvSHlzdHJpeC93aWtpL2ltYWdlcy9zb2EtMS02NDAucG5n.jfif)
 
+当许多后端系统中有一个潜在时，它可以阻止整个用户请求：
 
+![img](img/aHR0cHM6Ly9naXRodWIuY29tL05ldGZsaXgvSHlzdHJpeC93aWtpL2ltYWdlcy9zb2EtMi02NDAucG5n.jfif)
 
+随着大容量通信量的增加，单个后端依赖项的潜在性会导致所有服务器上的所有资源在几秒钟内饱和。
 
+应用程序中通过网络或客户端库可能导致网络请求的每个点都是潜在故障的来源。比失败更糟糕的是，这些应用程序还可能导致服务之间的延迟增加，从而备份队列、线程和其他系统资源，从而导致更多跨系统的级联故障。
 
+![img](img/aHR0cHM6Ly9naXRodWIuY29tL05ldGZsaXgvSHlzdHJpeC93aWtpL2ltYWdlcy9zb2EtMy02NDAucG5n.jfif)
 
+当使用hystrix包装每个基础依赖项时，上面的图表中所示的体系结构会发生类似于以下关系图的变化。每个依赖项是相互隔离的，限制在延迟发生时它可以填充的资源中，并包含在回退逻辑中，该逻辑决定在依赖项中发生任何类型的故障时要做出什么样的响应：
 
+![在这里插入图片描述](img/20200521131820586.png)
 
+**官网资料**：https://github.com/Netflix/Hystrix/wiki
 
+#### 8.4 服务熔断
 
+##### **什么是服务熔断**
 
+ 熔断机制是赌赢雪崩效应的一种微服务链路保护机制。
 
+ 在微服务架构中，微服务之间的数据交互通过远程调用完成，微服务A调用微服务B和微服务C，微服务B和微服务C又调用其它的微服务，此时如果链路上某个微服务的调用响应时间过长或者不可用，那么对微服务A的调用就会占用越来越多的系统资源，进而引起系统崩溃，导致“雪崩效应”。
 
+  服务熔断是应对雪崩效应的一种微服务链路保护机制。例如在高压电路中，如果某个地方的电压过高，熔断器就会熔断，对电路进行保护。同样，在微服务架构中，熔断机制也是起着类似的作用。当调用链路的某个微服务不可用或者响应时间太长时，会进行服务熔断，不再有该节点微服务的调用，快速返回错误的响应信息。当检测到该节点微服务调用响应正常后，恢复调用链路。
 
+ 当扇出链路的某个微服务不可用或者响应时间太长时，会进行服务的降级，**进而熔断该节点微服务的调用，快速返回错误的响应信息**。检测到该节点微服务调用响应正常后恢复调用链路。在SpringCloud框架里熔断机制通过Hystrix实现。Hystrix会监控微服务间调用的状况，当失败的调用到一定阀值缺省是5秒内20次调用失败，就会启动熔断机制。熔断机制的注解是：**[@HystrixCommand](https://github.com/HystrixCommand)** 。
 
+ 服务熔断解决如下问题： 1. 当所依赖的对象不稳定时，能够起到快速失败的目的；2. 快速失败后，能够根据一定的算法动态试探所依赖对象是否恢复。
 
+##### 入门案例
 
+新建springcloud-provider-dept-hystrix-8001模块并拷贝springcloud-provider-dept—8001内的pom.xml、resource和Java代码进行初始化并调整。
 
+**导入hystrix依赖**
 
+```xml
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-hystrix</artifactId>
+    <version>1.4.6.RELEASE</version>
+</dependency>
+```
 
+**调整yml配置文件**
 
+```yml
+server:
+  port: 8001
 
+mybatis:
+  type-aliases-package: com.niu.springcloud.pojo
+  config-location: classpath:mybatis-config.xml
+  mapper-locations: classpath:Mapper/*.xml
+spring:
+  application:
+    name: springcloud-provider-dept
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/db01?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
+    username: root
+    password: Ntj@13
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7001/eureka/,http://localhost:7002/eureka/,http://localhost:7003/eureka/
+  instance:
+    instance-id: springcloud-provider-hystrix-dept8001
+	prefer-ip-address: true #改为true后默认显示的是ip地址而不再是localhost
+#Eureka配置
 
+#info配置
+info:
+  app.name: niu-springcloud
+  company.name: blog.niu
+```
 
+![image-20200824011915760](img/image-20200824011915760.png)
 
+**修改controller**
 
+```java
+@RestController
+public class DeptController {
+    @Autowired
+    private DeptService deptService;
+    @HystrixCommand(fallbackMethod = "hystrixGet")//如果根据id查询出现异常,走这段代码
+    @GetMapping("/dept/get/{id}")//根据id查询
+    public Dept get(@PathVariable("id") Long id){
+        Dept dept = deptService.queryById(id);
+        if (dept==null){
+            throw new RuntimeException("这个id=>"+id+",不存在该用户，或信息无法找到~");
+        }
+        return dept;
+    }
+    //根据id查询备选方案(熔断)
+    public Dept hystrixGet(@PathVariable("id") Long id){
+        return new Dept().setDeptno(id)
+                .setDname("这个id=>"+id+",没有对应的信息,null---@Hystrix~")
+                .setDb_source("在MySQL中没有这个数据库");
+    }
+}
+```
 
+**为主启动类添加对熔断的支持注解@EnableCircuitBreaker**
 
+```
+@SpringBootApplication
+@EnableEurekaClient //EnableEurekaClient 客户端的启动类，在服务启动后自动向注册中心注册服务
+@EnableDiscoveryClient
+@EnableCircuitBreaker//添加对熔断的支持
+public class DeptProviderHystrix_8001 {
+    public static void main(String[] args) {
+        SpringApplication.run(DeptProviderHystrix_8001.class,args);
+    }
+}
+```
 
+**测试**
 
+使用熔断后，当访问一个不存在的id时，前台页展示数据如下
 
+![image-20200824012136629](img/image-20200824012136629.png)
 
+而不适用熔断的springcloud-provider-dept—8001模块访问相同地址会出现下面状况
 
+![image-20200824012213520](img/image-20200824012213520.png)
 
+因此，**为了避免因某个微服务后台出现异常或错误而导致整个应用或网页报错，使用熔断是必要的**
 
+#### 8.5 服务降级
 
+##### 什么是服务降级
 
+ 服务降级是指 当服务器压力剧增的情况下，根据实际业务情况及流量，对一些服务和页面有策略的不处理或换种简单的方式处理，从而释放服务器资源以保证核心业务正常运作或高效运作。说白了，就是尽可能的把系统资源让给优先级高的服务。
+  资源有限，而请求是无限的。如果在并发高峰期，不做服务降级处理，一方面肯定会影响整体服务的性能，严重的话可能会导致宕机某些重要的服务不可用。所以，一般在高峰期，为了保证核心功能服务的可用性，都要对某些服务降级处理。比如当双11活动时，把交易无关的服务统统降级，如查看蚂蚁深林，查看历史订单等等。
 
+  服务降级主要用于什么场景呢？当整个微服务架构整体的负载超出了预设的上限阈值或即将到来的流量预计将会超过预设的阈值时，为了保证重要或基本的服务能正常运行，可以将一些 不重要 或 不紧急 的服务或任务进行服务的 延迟使用 或 暂停使用。
+  降级的方式可以根据业务来，可以延迟服务，比如延迟给用户增加积分，只是放到一个缓存中，等服务平稳之后再执行 ；或者在粒度范围内关闭服务，比如关闭相关文章的推荐。
 
+![在这里插入图片描述](img/20200521132141732.png)
 
+由上图可得，**当某一时间内服务A的访问量暴增，而B和C的访问量较少，为了缓解A服务的压力，这时候需要B和C暂时关闭一些服务功能，去承担A的部分服务，从而为A分担压力，叫做服务降级**。
 
+##### 服务降级需要考虑的问题
 
+- 1）那些服务是核心服务，哪些服务是非核心服务
+- 2）那些服务可以支持降级，那些服务不能支持降级，降级策略是什么
+- 3）除服务降级之外是否存在更复杂的业务放通场景，策略是什么？
+
+##### 自动降级分类
+
+  1）超时降级：主要配置好超时时间和超时重试次数和机制，并使用异步机制探测回复情况
+
+  2）失败次数降级：主要是一些不稳定的api，当失败调用次数达到一定阀值自动降级，同样要使用异步机制探测回复情况
+
+  3）故障降级：比如要调用的远程服务挂掉了（网络故障、DNS故障、http服务返回错误的状态码、rpc服务抛出异常），则可以直接降级。降级后的处理方案有：默认值（比如库存服务挂了，返回默认现货）、兜底数据（比如广告挂了，返回提前准备好的一些静态页面）、缓存（之前暂存的一些缓存数据）
+
+  4）限流降级：秒杀或者抢购一些限购商品时，此时可能会因为访问量太大而导致系统崩溃，此时会使用限流来进行限制访问量，当达到限流阀值，后续请求会被降级；降级后的处理方案可以是：排队页面（将用户导流到排队页面等一会重试）、无货（直接告知用户没货了）、错误页（如活动太火爆了，稍后重试）。
+
+##### 入门案例
+
+在springcloud-api模块下的service包中新建降级配置类DeptClientServiceFallBackFactory.java
+
+```java
+@Component
+public class DeptClientServiceFallBackFactory implements FallbackFactory {
+    @Override
+    public DeptClientService  create(Throwable throwable) {
+        return new DeptClientService() {
+            @Override
+            public Dept queryById(Long id) {
+                return new Dept()
+                        .setDeptno(id)
+                        .setDname("id=>" + id + "没有对应的信息，客户端提供了降级的信息，这个服务现在已经被关闭")
+                        .setDb_source("没有数据~");
+            }
+            @Override
+            public List<Dept> queryAll() {
+                return null;
+            }
+            @Override
+            public boolean addDept(Dept dept) {
+                return false;
+            }
+        };
+    }
+}
+```
+
+在DeptClientService中开启微服务注解以及fallbachFactory指定降级配置类
+
+```java
+@Component //注册到spring容器中
+//@FeignClient:微服务客户端注解,value:指定微服务的名字,这样就可以使Feign客户端直接找到对应的微服务
+@FeignClient(value = "SPRINGCLOUD-PROVIDER-DEPT",fallbackFactory = DeptClientServiceFallBackFactory.class)//fallbackFactory指定降级配置类
+public interface DeptClientService {
+    @GetMapping("/dept/get/{id}")
+    Dept queryById(@PathVariable("id") Long id);
+
+    @GetMapping("/dept/list")
+    List<Dept> queryAll();
+
+    @PostMapping("/dept/add")
+    boolean addDept(Dept dept);
+}
+```
+
+在springcloud-consumer-dept-feign模块中开启降级
+
+```yml
+server:
+  port: 80
+#Eureka配置
+eureka:
+  client:
+    register-with-eureka: false #不像Eureka注册自己
+    service-url:
+      defaultZone: http://localhost1:7001/eureka/,http://localhost3:7002/eureka/,http://localhost3:7003/eureka/
+# 开启降级feign.hystrix
+feign:
+  hystrix:
+    enabled: true
+```
+
+测试：
+
+当springcloud-consumer-dept-feign服务者正常提供服务时，能正常查询
+
+![image-20200824015229038](img/image-20200824015229038.png)
+
+当服务停止时
+
+![image-20200824015319217](img/image-20200824015319217.png)
+
+#### 8.6 服务熔断和降级的区别
+
+- **服务熔断—->服务端**：某个服务超时或异常，引起熔断~，类似于保险丝(自我熔断)
+- **服务降级—->客户端**：从整体网站请求负载考虑~，当某个服务熔断或者关闭之后，服务将不再被调用~，此时在客户端，我们可以准备一个 FallBackFactory ，返回一个默认的值(缺省值)。会导致整体的服务下降，但是好歹能用，比直接挂掉强。
+- 触发原因不太一样，服务熔断一般是某个服务（下游服务）故障引起，而服务降级一般是从整体负荷考虑；管理目标的层次不太一样，熔断其实是一个框架级的处理，每个微服务都需要（无层级之分），而降级一般需要对业务有层级之分（比如降级一般是从最外围服务开始）
+- 实现方式不太一样，服务降级具有代码侵入性(由控制器完成/或自动降级)，熔断一般称为**自我熔断**。
+
+限流：限制并发的请求访问量，超过阈值则拒绝；
+降级：服务分优先级，牺牲非核心服务（不可用），保证核心服务稳定；从整体负荷考虑；
+熔断：依赖的下游服务故障触发熔断，避免引发本系统崩溃；系统自动执行和恢复
+
+#### 8.7 Dashboard 流监控
+
+新建springcloud-consumer-hystrix-dashboard模块
+
+**添加依赖**
+
+```xml
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-hystrix</artifactId>
+        <version>1.4.6.RELEASE</version>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-hystrix-dashboard</artifactId>
+        <version>1.4.6.RELEASE</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-ribbon -->
+    <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-ribbon</artifactId>
+        <version>1.4.6.RELEASE</version>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-eureka</artifactId>
+        <version>1.4.6.RELEASE</version>
+    </dependency>
+    <dependency>
+        <groupId>com.niu</groupId>
+        <artifactId>springcloudapi</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-devtools</artifactId>
+    </dependency>
+</dependencies>
+```
+
+**主启动类**
+
+```java
+@SpringBootApplication
+@EnableHystrixDashboard//开启监控页面Dashboard
+public class DeptConsumerDashboard_9001 {
+    public static void main(String[] args) {
+        SpringApplication.run(DeptConsumerDashboard_9001.class,args);
+    }
+
+}
+```
+
+给springcloud-provider-dept-hystrix-8001模块下的主启动类添加如下代码,添加监控
+
+```java
+@SpringBootApplication
+@EnableEurekaClient
+@EnableDiscoveryClient
+@EnableCircuitBreaker//添加对熔断的支持
+public class DeptProviderHystrix_8001 {
+    public static void main(String[] args) {
+        SpringApplication.run(DeptProviderHystrix_8001.class,args);
+    }
+    @Bean
+    public ServletRegistrationBean hystrixMetricsStreamServlet(){
+        ServletRegistrationBean registrationBean = new ServletRegistrationBean(new HystrixMetricsStreamServlet());
+        //访问该页面就是监控页面
+        registrationBean.addUrlMappings("/actuator/hystrix.stream");
+        return registrationBean;
+    }
+}
+```
+
+访问http://localhost:8001/actuator/hystrix.stream 有数据
+
+![image-20200824024039801](img/image-20200824024039801.png)
+
+跳转到监控页面 http://localhost:9001/hystrix 将上一步网址填入点击MonitorStream，可以看到监控页面
+
+实心圆: 颜色代表健康程度, 从绿色,黄色,橙色,红色递减, 大小代表流量, 越大则单位时间内访问次数越多
+
+![image-20200824024221987](img/image-20200824024221987.png)
+
+其他参数:
+
+![image-20200824024401670](img/image-20200824024401670.png)
