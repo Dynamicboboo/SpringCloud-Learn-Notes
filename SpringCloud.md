@@ -206,9 +206,9 @@ IDEA 工具里面使用Maven开发的一个个独立的小Moudel，它具体是�
 
 Spring官网：https://spring.io/
 
-![](img/aHR0cHM6Ly9zczEuYmRzdGF0aWMuY29tLzcwY0Z1WFNoX1ExWW54R2twb1dLMUhGNmhoeS9pdC91PTM1NzgwMTc3ODAsMTIxODQyMDAyOSZmbT0yNiZncD0wLmpwZw.jfif)
+![](http://markdown.xiaonainiu.top/img/aHR0cHM6Ly9zczEuYmRzdGF0aWMuY29tLzcwY0Z1WFNoX1ExWW54R2twb1dLMUhGNmhoeS9pdC91PTM1NzgwMTc3ODAsMTIxODQyMDAyOSZmbT0yNiZncD0wLmpwZw.jfif)
 
-![img](img/aHR0cHM6Ly9zczIuYmRzdGF0aWMuY29tLzcwY0Z2blNoX1ExWW54R2twb1dLMUhGNmhoeS9pdC91PTE2Mzc3ODY4OTcsNzQ1MTM1MjUxJmZtPTI2JmdwPTAuanBn.jfif)
+![img](http://markdown.xiaonainiu.top/img/aHR0cHM6Ly9zczIuYmRzdGF0aWMuY29tLzcwY0Z2blNoX1ExWW54R2twb1dLMUhGNmhoeS9pdC91PTE2Mzc3ODY4OTcsNzQ1MTM1MjUxJmZtPTI2JmdwPTAuanBn.jfif)
 
 Spring Cloud provides tools for developers to quickly build some of the common patterns in distributed systems (e.g. configuration management, service discovery, circuit breakers, intelligent routing, micro-proxy, control bus, one-time tokens, global locks, leadership election, distributed sessions, cluster state). Coordination of distributed systems leads to boiler plate patterns, and using Spring Cloud developers can quickly stand up services and applications that implement those patterns. They will work well in any distributed environment, including the developer’s own laptop, bare metal data centres, and managed platforms such as Cloud Foundry.
 
@@ -285,7 +285,7 @@ https://github.com/spring-cloud
 
 版本号有点特别：
 
-![在这里插入图片描述](img/20200521130004420.png)
+![在这里插入图片描述](http://markdown.xiaonainiu.top/img/20200521130004420.png)
 
 SpringCloud没有采用数字编号的方式命名版本号，而是采用了伦敦地铁站的名称，**同时根据字母表的顺序来对应版本时间顺序**，比如最早的Realse版本：Angel，第二个Realse版本：Brixton，然后是Camden、Dalston、Edgware，目前最新的是Hoxton SR4 CURRENT GA通用稳定版。
 
@@ -434,7 +434,7 @@ public class Dept implements Serializable {
 
 #### **springcloud-provider-dept-8001**
 
-![image-20200821182445057](img/image-20200821182445057.png)
+![image-20200821182445057](http://markdown.xiaonainiu.top/img/image-20200821182445057.png)
 
 controller.class
 
@@ -570,7 +570,7 @@ mybatis-config.xml
 
 #### springcould-consumer-dept-80
 
-![image-20200821182725028](img/image-20200821182725028.png)
+![image-20200821182725028](http://markdown.xiaonainiu.top/img/image-20200821182725028.png)
 
 **DeptConsumerController.class**
 
@@ -622,7 +622,7 @@ server:
 
 在消费段80端口直接直接访问到8081的项目。
 
-![image-20200821183027367](img/image-20200821183027367.png)
+![image-20200821183027367](http://markdown.xiaonainiu.top/img/image-20200821183027367.png)
 
 ### 5、Eureka服务注册与发现
 
@@ -638,7 +638,7 @@ server:
   - Eureka采用了C-S的架构设计，EurekaServer作为服务注册功能的服务器，他是服务注册中心.
   - 而系统中的其他微服务，使用Eureka的客户端连接到EurekaServer并维持心跳连接。这样系统的维护人员就可以通过EurekaServer来监控系统中各个微服务是否正常运行，Springcloud 的一些其他模块 (比如Zuul) 就可以通过EurekaServer来发现系统中的其他微服务，并执行相关的逻辑.
 
-![image-20200822120032078](img/image-20200822120032078.png)
+![image-20200822120032078](http://markdown.xiaonainiu.top/img/image-20200822120032078.png)
 
 - Eureka 包含两个组件：**Eureka Server** 和 **Eureka Client**.
 - Eureka Server 提供服务注册，各个节点启动后，回在EurekaServer中进行注册，这样Eureka Server中的服务注册表中将会储存所有课用服务节点的信息，服务节点的信息可以在界面中直观的看到.
@@ -702,7 +702,7 @@ eureka:
 
 启动成功后访问 http://localhost:7001/ 得到以下页面
 
-![image-20200822120535900](img/image-20200822120535900.png)
+![image-20200822120535900](http://markdown.xiaonainiu.top/img/image-20200822120535900.png)
 
 ##### 2. eureka-client
 
@@ -761,11 +761,11 @@ info:
 
 访问
 
-![image-20200822115138617](img/image-20200822115138617.png)
+![image-20200822115138617](http://markdown.xiaonainiu.top/img/image-20200822115138617.png)
 
 得到
 
-![image-20200822115159082](img/image-20200822115159082.png)
+![image-20200822115159082](http://markdown.xiaonainiu.top/img/image-20200822115159082.png)
 
 ##### 3. 注册进来的微服务，获取一些信息（团队开发）
 
@@ -807,7 +807,7 @@ private DiscoveryClient client;
 
 ![image-20200822115846210](img/image-20200822115846210.png)
 
-![image-20200822115905081](img/image-20200822115905081.png)
+![image-20200822115905081](http://markdown.xiaonainiu.top/img/image-20200822115905081.png)
 
 ##### 4. EureKa自我保护机制：好死不如赖活着
 
@@ -907,11 +907,11 @@ info:
 
 5.添加本地localhost解析，以便测试
 
-![image-20200823002621715](img/image-20200823002621715.png)
+![image-20200823002621715](http://markdown.xiaonainiu.top/img/image-20200823002621715.png)
 
 启动测试
 
-![image-20200823002523445](img/image-20200823002523445.png)
+![image-20200823002523445](http://markdown.xiaonainiu.top/img/image-20200823002523445.png)
 
 #### 5.5 对比和Zookeeper区别
 
@@ -1055,7 +1055,7 @@ private static final String REST_URL_PREFIX = "http://SPRINGCLOUD-PROVIDER-DEPT"
 
 #### 6.3 使用Ribbon实现负载均衡
 
-![image-20200823145431234](img/image-20200823145431234.png)
+![image-20200823145431234](http://markdown.xiaonainiu.top/img/image-20200823145431234.png)
 
 1.新建两个服务提供者Moudle：springcloud-provider-dept-8003、springcloud-provider-dept-8002
 
@@ -1063,11 +1063,11 @@ private static final String REST_URL_PREFIX = "http://SPRINGCLOUD-PROVIDER-DEPT"
 
 3.启动所有服务测试(根据自身电脑配置决定启动服务的个数)，访问http://localhost2.com:7002/查看结果
 
-![image-20200823145539067](img/image-20200823145539067.png)
+![image-20200823145539067](http://markdown.xiaonainiu.top/img/image-20200823145539067.png)
 
 测试访问http://localhost/consumer/dept/list 这时候随机访问的是服务提供者8003
 
-![image-20200823145718279](img/image-20200823145718279.png)
+![image-20200823145718279](http://markdown.xiaonainiu.top/img/image-20200823145718279.png)
 
 随着刷新会出现8001、8002提供者
 
@@ -1101,7 +1101,7 @@ public class ConfigBean {//@Configuration -- spring  applicationContext.xml
 
 也可以自定义规则，在myRule包下自定义一个配置类MyRule.java，注意：**该包不要和主启动类所在的包同级，要跟启动类所在包同级**：
 
-![在这里插入图片描述](img/20200521131456478.png)
+![在这里插入图片描述](http://markdown.xiaonainiu.top/img/20200521131456478.png)
 
 MyRule.java
 
@@ -1368,21 +1368,21 @@ public interface DeptClientService {
 
 当一切正常时，请求流可以如下所示：
 
-![img](img/aHR0cHM6Ly9naXRodWIuY29tL05ldGZsaXgvSHlzdHJpeC93aWtpL2ltYWdlcy9zb2EtMS02NDAucG5n.jfif)
+![img](http://markdown.xiaonainiu.top/img/aHR0cHM6Ly9naXRodWIuY29tL05ldGZsaXgvSHlzdHJpeC93aWtpL2ltYWdlcy9zb2EtMS02NDAucG5n.jfif)
 
 当许多后端系统中有一个潜在时，它可以阻止整个用户请求：
 
-![img](img/aHR0cHM6Ly9naXRodWIuY29tL05ldGZsaXgvSHlzdHJpeC93aWtpL2ltYWdlcy9zb2EtMi02NDAucG5n.jfif)
+![img](http://markdown.xiaonainiu.top/img/aHR0cHM6Ly9naXRodWIuY29tL05ldGZsaXgvSHlzdHJpeC93aWtpL2ltYWdlcy9zb2EtMi02NDAucG5n.jfif)
 
 随着大容量通信量的增加，单个后端依赖项的潜在性会导致所有服务器上的所有资源在几秒钟内饱和。
 
 应用程序中通过网络或客户端库可能导致网络请求的每个点都是潜在故障的来源。比失败更糟糕的是，这些应用程序还可能导致服务之间的延迟增加，从而备份队列、线程和其他系统资源，从而导致更多跨系统的级联故障。
 
-![img](img/aHR0cHM6Ly9naXRodWIuY29tL05ldGZsaXgvSHlzdHJpeC93aWtpL2ltYWdlcy9zb2EtMy02NDAucG5n.jfif)
+![img](http://markdown.xiaonainiu.top/img/aHR0cHM6Ly9naXRodWIuY29tL05ldGZsaXgvSHlzdHJpeC93aWtpL2ltYWdlcy9zb2EtMy02NDAucG5n.jfif)
 
 当使用hystrix包装每个基础依赖项时，上面的图表中所示的体系结构会发生类似于以下关系图的变化。每个依赖项是相互隔离的，限制在延迟发生时它可以填充的资源中，并包含在回退逻辑中，该逻辑决定在依赖项中发生任何类型的故障时要做出什么样的响应：
 
-![在这里插入图片描述](img/20200521131820586.png)
+![在这里插入图片描述](http://markdown.xiaonainiu.top/img/20200521131820586.png)
 
 **官网资料**：https://github.com/Netflix/Hystrix/wiki
 
@@ -1448,7 +1448,7 @@ info:
   company.name: blog.niu
 ```
 
-![image-20200824011915760](img/image-20200824011915760.png)
+![image-20200824011915760](http://markdown.xiaonainiu.top/img/image-20200824011915760.png)
 
 **修改controller**
 
@@ -1493,11 +1493,11 @@ public class DeptProviderHystrix_8001 {
 
 使用熔断后，当访问一个不存在的id时，前台页展示数据如下
 
-![image-20200824012136629](img/image-20200824012136629.png)
+![image-20200824012136629](http://markdown.xiaonainiu.top/img/image-20200824012136629.png)
 
 而不适用熔断的springcloud-provider-dept—8001模块访问相同地址会出现下面状况
 
-![image-20200824012213520](img/image-20200824012213520.png)
+![image-20200824012213520](http://markdown.xiaonainiu.top/img/image-20200824012213520.png)
 
 因此，**为了避免因某个微服务后台出现异常或错误而导致整个应用或网页报错，使用熔断是必要的**
 
@@ -1511,7 +1511,7 @@ public class DeptProviderHystrix_8001 {
   服务降级主要用于什么场景呢？当整个微服务架构整体的负载超出了预设的上限阈值或即将到来的流量预计将会超过预设的阈值时，为了保证重要或基本的服务能正常运行，可以将一些 不重要 或 不紧急 的服务或任务进行服务的 延迟使用 或 暂停使用。
   降级的方式可以根据业务来，可以延迟服务，比如延迟给用户增加积分，只是放到一个缓存中，等服务平稳之后再执行 ；或者在粒度范围内关闭服务，比如关闭相关文章的推荐。
 
-![在这里插入图片描述](img/20200521132141732.png)
+![在这里插入图片描述](http://markdown.xiaonainiu.top/img/20200521132141732.png)
 
 由上图可得，**当某一时间内服务A的访问量暴增，而B和C的访问量较少，为了缓解A服务的压力，这时候需要B和C暂时关闭一些服务功能，去承担A的部分服务，从而为A分担压力，叫做服务降级**。
 
@@ -1600,11 +1600,11 @@ feign:
 
 当springcloud-consumer-dept-feign服务者正常提供服务时，能正常查询
 
-![image-20200824015229038](img/image-20200824015229038.png)
+![image-20200824015229038](http://markdown.xiaonainiu.top/img/image-20200824015229038.png)
 
 当服务停止时
 
-![image-20200824015319217](img/image-20200824015319217.png)
+![image-20200824015319217](http://markdown.xiaonainiu.top/img/image-20200824015319217.png)
 
 #### 8.6 服务熔断和降级的区别
 
@@ -1698,17 +1698,17 @@ public class DeptProviderHystrix_8001 {
 
 访问http://localhost:8001/actuator/hystrix.stream 有数据
 
-![image-20200824024039801](img/image-20200824024039801.png)
+![image-20200824024039801](http://markdown.xiaonainiu.top/img/image-20200824024039801.png)
 
 跳转到监控页面 http://localhost:9001/hystrix 将上一步网址填入点击MonitorStream，可以看到监控页面
 
 实心圆: 颜色代表健康程度, 从绿色,黄色,橙色,红色递减, 大小代表流量, 越大则单位时间内访问次数越多
 
-![image-20200824024221987](img/image-20200824024221987.png)
+![image-20200824024221987](http://markdown.xiaonainiu.top/img/image-20200824024221987.png)
 
 其他参数:
 
-![image-20200824024401670](img/image-20200824024401670.png)
+![image-20200824024401670](http://markdown.xiaonainiu.top/img/image-20200824024401670.png)
 
 ## 9. Zull路由网关
 
@@ -1805,7 +1805,7 @@ zuul:
   prefix: /niu # 设置公共的前缀,实现隐藏原有路由
 ```
 
-![image-20200824162054783](img/image-20200824162054783.png)
+![image-20200824162054783](http://markdown.xiaonainiu.top/img/image-20200824162054783.png)
 
 ### 10、Git
 
@@ -1819,7 +1819,7 @@ zuul:
 
 **什么是SpringCloud config分布式配置中心？**
 
-![image-20200824164447832](img/image-20200824164447832.png)
+![image-20200824164447832](http://markdown.xiaonainiu.top/img/image-20200824164447832.png)
 
  spring cloud config 为微服务架构中的微服务提供集中化的外部支持，配置服务器为各个不同微服务应用的所有环节提供了一个**中心化的外部配置**。
 
@@ -1841,39 +1841,96 @@ zuul:
 
  由于spring cloud config 默认使用git来存储配置文件 (也有其他方式，比如自持SVN 和本地文件)，但是最推荐的还是git ，而且使用的是 http / https 访问的形式。
 
-#### 入门案例
+#### 案例
 
-##### **服务端**
+本地新建config-dept.yml和config-eureka.yml并提交到码云/geithub仓库
 
-新建springcloud-config-server-3344模块导入pom.xml依赖
+![image-20200824215150905](http://markdown.xiaonainiu.top/img/image-20200824215150905.png)
 
-```xml
-<dependencies>
-    <!--web-->
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-web</artifactId>
-    </dependency>
-    <!--config-->
-    <dependency>
-        <groupId>org.springframework.cloud</groupId>
-        <artifactId>spring-cloud-config-server</artifactId>
-        <version>2.1.1.RELEASE</version>
-    </dependency>
-    <!--eureka-->
-    <dependency>
-        <groupId>org.springframework.cloud</groupId>
-        <artifactId>spring-cloud-starter-eureka</artifactId>
-        <version>1.4.6.RELEASE</version>
-    </dependency>
-</dependencies>
+这里配置文件内容不再列举直接到代码中看把。
+
+新建springcloud-config-eureka-7001模块，并将原来的springcloud-eureka-7001模块下的内容拷贝的该模块。
+
+1.清空该模块的application.yml配置，并新建bootstrap.yml连接远程配置
+
+```yml
+spring:
+  cloud:
+    config:
+      name: config-eureka # 仓库中的配置文件名称
+      label: master
+      profile: dev
+      uri: http://localhost:3344
 ```
 
+2.在pom.xml中添加spring cloud config依赖
 
+```xml
+<!--config-->
+<!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-config -->
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-config</artifactId>
+    <version>2.1.1.RELEASE</version>
+</dependency>
+```
 
+3.主启动类
 
+```java
+@SpringBootApplication
+@EnableEurekaServer //EnableEurekaServer 服务端的启动类，可以接受别人注册进来~
+public class ConfigEurekaServer_7001 {
+    public static void main(String[] args) {
+        SpringApplication.run(ConfigEurekaServer_7001.class,args);
+    }
+}
+```
 
+4.测试
 
+第一步：启动 Config_Server_3344，并访问 http://localhost:3344/master/config-eureka-dev.yml 测试，能看到yml上传的内容
+
+第二部：启动ConfigEurekaServer_7001，访问 http://localhost:7001/ 测试能否打开
+
+新建springcloud-config-dept-8001模块并拷贝springcloud-provider-dept-8001的内容
+
+同理导入spring cloud config依赖、清空application.yml 、新建bootstrap.yml配置文件并配置
+
+```yml
+spring:
+  cloud:
+    config:
+      name: config-dept
+      label: master
+      profile: dev
+      uri: http://localhost:3344
+```
+
+主启动类
+
+```java
+@SpringBootApplication
+@EnableEurekaClient //在服务启动后自动注册到Eureka中！
+@EnableDiscoveryClient //服务发现~
+@EnableCircuitBreaker //
+public class ConfigDeptProvider_8001 {
+    public static void main(String[] args) {
+        SpringApplication.run(ConfigDeptProvider_8001.class,args);
+    }
+    //增加一个 Servlet
+    @Bean
+    public ServletRegistrationBean hystrixMetricsStreamServlet(){
+        ServletRegistrationBean registrationBean = new ServletRegistrationBean(new HystrixMetricsStreamServlet());
+        registrationBean.addUrlMappings("/actuator/hystrix.stream");
+        return registrationBean;
+    }
+}
+```
+
+```tex
+
+```
 
 
 
