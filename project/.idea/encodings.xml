@@ -11,6 +11,7 @@
     <file url="file://$PROJECT_DIR$/springcloud-provider-dept-hystrix-8001" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/springcloud-provider-hystrix-dashboard" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/springcloud-sonsumer-dept-feign" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/springcloud-zuul-9527" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/springcloudapi" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/springcould-consumer-dept-80" charset="UTF-8" />
   </component>

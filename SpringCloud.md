@@ -1709,3 +1709,175 @@ public class DeptProviderHystrix_8001 {
 其他参数:
 
 ![image-20200824024401670](img/image-20200824024401670.png)
+
+## 9. Zull路由网关
+
+#### 概述
+
+**什么是zuul?**
+
+ Zull包含了对请求的**路由**(用来跳转的)和**过滤**两个最主要功能：
+
+ 其中**路由功能负责将外部请求转发到具体的微服务实例上，是实现外部访问统一入口的基础**，而过**滤器功能则负责对请求的处理过程进行干预，是实现请求校验，服务聚合等功能的基础**。Zuul和Eureka进行整合，将Zuul自身注册为Eureka服务治理下的应用，同时从Eureka中获得其他服务的消息，也即以后的访问微服务都是通过Zuul跳转后获得。
+
+ 注意：Zuul服务最终还是会注册进Eureka
+
+ 提供：代理+路由+过滤 三大功能！
+
+**Zuul能干嘛？**
+
+- 路由
+- 过滤
+
+官方文档：https://github.com/Netflix/zuul/
+
+#### 入门案例
+
+**新建springcloud-zuul模块，并导入依赖**
+
+```xml
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-zuul</artifactId>
+        <version>1.4.6.RELEASE</version>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-hystrix</artifactId>
+        <version>1.4.6.RELEASE</version>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-hystrix-dashboard</artifactId>
+        <version>1.4.6.RELEASE</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-ribbon -->
+    <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-ribbon</artifactId>
+        <version>1.4.6.RELEASE</version>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-eureka</artifactId>
+        <version>1.4.6.RELEASE</version>
+    </dependency>
+    <dependency>
+        <groupId>com.niu</groupId>
+        <artifactId>springcloudapi</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-devtools</artifactId>
+    </dependency>
+</dependencies>
+```
+
+**application.yml**
+
+```yml
+server:
+  port: 9527
+spring:
+  application:
+    name: springcloud-zuul #微服务名称
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7001/eureka/
+  instance: #实例的id
+    instance-id: zuul9527.com
+    prefer-ip-address: true
+info:
+  app.name: niu-springcloud
+  company.name: blog-xiaonainiu.top
+zuul:
+  routes:
+    mydept.serviceId: springcloud-provider-dept
+    mydept.path: /mydept/**
+  ignored-services: "*"  # 不能再使用某个(*：全部)路径访问了，ignored ： 忽略,隐藏全部的~
+  prefix: /niu # 设置公共的前缀,实现隐藏原有路由
+```
+
+![image-20200824162054783](img/image-20200824162054783.png)
+
+### 10、Git
+
+**Spring Cloud Config为分布式系统中的外部配置提供服务器和客户端支持**。使用Config Server，您可以在所有环境中管理应用程序的外部属性。客户端和服务器上的概念映射与Spring `Environment`和`PropertySource`抽象相同，因此它们与Spring应用程序非常契合，但可以与任何以任何语言运行的应用程序一起使用。随着应用程序通过从开发人员到测试和生产的部署流程，您可以管理这些环境之间的配置，并确定应用程序具有迁移时需要运行的一切。服务器存储后端的默认实现使用git，因此它轻松支持标签版本的配置环境，以及可以访问用于管理内容的各种工具。很容易添加替代实现，并使用Spring配置将其插入。
+
+#### 概述
+
+**分布式系统面临的—配置文件问题**
+
+微服务意味着要将单体应用中的业务拆分成一个个子服务，每个服务的粒度相对较小，因此系统中会出现大量的服务，由于每个服务都需要必要的配置信息才能运行，所以一套集中式的，动态的配置管理设施是必不可少的。spring cloud提供了configServer来解决这个问题，我们每一个微服务自己带着一个application.yml，那上百个的配置文件修改起来，令人头疼！
+
+**什么是SpringCloud config分布式配置中心？**
+
+![image-20200824164447832](img/image-20200824164447832.png)
+
+ spring cloud config 为微服务架构中的微服务提供集中化的外部支持，配置服务器为各个不同微服务应用的所有环节提供了一个**中心化的外部配置**。
+
+ spring cloud config 分为**服务端**和**客户端**两部分。
+
+ 服务端也称为 **分布式配置中心**，它是一个独立的微服务应用，用来连接配置服务器并为客户端提供获取配置信息，加密，解密信息等访问接口。
+
+ 客户端则是**通过指定的配置中心来管理应用资源，以及与业务相关的配置内容，并在启动的时候从配置中心获取和加载配置信息**。配置服务器默认采用git来存储配置信息，这样就有助于对环境配置进行版本管理。并且可用通过git客户端工具来方便的管理和访问配置内容。
+
+**spring cloud config 分布式配置中心能干嘛？**
+
+- 集中式管理配置文件
+- 不同环境，不同配置，动态化的配置更新，分环境部署，比如 /dev /test /prod /beta /release
+- 运行期间动态调整配置，不再需要在每个服务部署的机器上编写配置文件，服务会向配置中心统一拉取配置自己的信息
+- 当配置发生变动时，服务不需要重启，即可感知到配置的变化，并应用新的配置
+- 将配置信息以REST接口的形式暴露
+
+**spring cloud config 分布式配置中心与GitHub整合**
+
+ 由于spring cloud config 默认使用git来存储配置文件 (也有其他方式，比如自持SVN 和本地文件)，但是最推荐的还是git ，而且使用的是 http / https 访问的形式。
+
+#### 入门案例
+
+##### **服务端**
+
+新建springcloud-config-server-3344模块导入pom.xml依赖
+
+```xml
+<dependencies>
+    <!--web-->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <!--config-->
+    <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-config-server</artifactId>
+        <version>2.1.1.RELEASE</version>
+    </dependency>
+    <!--eureka-->
+    <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-eureka</artifactId>
+        <version>1.4.6.RELEASE</version>
+    </dependency>
+</dependencies>
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
